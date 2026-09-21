@@ -2,19 +2,6 @@ package lw01.unguided;
 
 import java.util.Scanner;
 
-/*
- * Input  : rentals.txt
- *          baris pertama = jumlah data, baris berikutnya "<TYPE> <ID> <DAYS> <UNITS>"
- *          TYPE = LAPTOP / PROJECTOR
- * Output : satu baris summary per rental, urut sesuai file
- * Steps  :
- * 1. buka rentals.txt lewat Scanner + getResourceAsStream
- * 2. baca jumlah data, siapin Rental[] sebesar itu
- * 3. baca tiap baris, bikin LaptopRental / ProjectorRental sesuai TYPE
- *    (units disimpen terpisah di daftarUnit, karena constructor Rental cuma terima id sama days)
- * 4. loop sekali, print summary tiap rental (polymorphism yang milih hitungannya)
- */
-
 public class Main {
     public static void main(String[] args) {
         Scanner pembaca = new Scanner(Main.class.getResourceAsStream("rentals.txt"));
