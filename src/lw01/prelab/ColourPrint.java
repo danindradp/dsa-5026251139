@@ -12,7 +12,6 @@ public class ColourPrint extends PrintJob {
 
     @Override
     public int calculateCharge() {
-        // pisah dulu halaman yang masuk tarif 1500 sama yang kena 1000
         int halamanPertama = Math.min(getPages(), BATAS_HALAMAN_MURAH);
         int halamanSisa = getPages() - halamanPertama;
 
