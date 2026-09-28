@@ -6,76 +6,71 @@ import java.util.Scanner;
 import java.util.Stack;
 
 public class Main {
-
     public static void main(String[] args) {
-
         Scanner sc = new Scanner(Main.class.getResourceAsStream("transactions.txt"));
 
         LinkedList<String[]> daftarTransaksi = new LinkedList<>();
-        while (sc.hasNextLine()) {
-            String baris = sc.nextLine().trim();
-            if (baris.isEmpty()) continue; 
-            String[] bagian = baris.split("\\s+");
-            daftarTransaksi.add(bagian);
-        }
-
         LinkedList<String[]> daftarNasabah = new LinkedList<>();
-        for (String[] t : daftarTransaksi) {
-            String nama = t[0];
+
+        while (sc.hasNext()) {
+            String nama = sc.next();
+            String tipe = sc.next();
+            String jumlah = sc.next();
+            daftarTransaksi.add(new String[] { nama, tipe, jumlah });
+
             boolean sudahAda = false;
-            for (String[] n : daftarNasabah) {
-                if (n[0].equals(nama)) {
+            for (int i = 0; i < daftarNasabah.size(); i++) {
+                if (daftarNasabah.get(i)[0].equals(nama)) {
                     sudahAda = true;
-                    break;
                 }
             }
             if (!sudahAda) {
-                daftarNasabah.add(new String[]{nama, "0"});
+                daftarNasabah.add(new String[] { nama, "0" });
             }
         }
+        sc.close();
 
-        Queue<String[]> antreanTransaksi = new LinkedList<>(daftarTransaksi);
+        Queue<String[]> antrian = new LinkedList<>();
+        for (int i = 0; i < daftarTransaksi.size(); i++) {
+            antrian.add(daftarTransaksi.get(i));
+        }
+
         Stack<String[]> transaksiGagal = new Stack<>();
 
-        while (!antreanTransaksi.isEmpty()) {
-            String[] t = antreanTransaksi.poll();
-            String nama = t[0];
-            String tipe = t[1];
-            int jumlah = Integer.parseInt(t[2]);
+        while (!antrian.isEmpty()) {
+            String[] transaksi = antrian.poll();
+            int jumlah = Integer.parseInt(transaksi[2]);
 
-            String[] data = null;
-            for (String[] n : daftarNasabah) {
-                if (n[0].equals(nama)) {
-                    data = n;
-                    break;
+            int idxNasabah = -1;
+            for (int i = 0; i < daftarNasabah.size(); i++) {
+                if (daftarNasabah.get(i)[0].equals(transaksi[0])) {
+                    idxNasabah = i;
                 }
             }
 
-            int saldo = Integer.parseInt(data[1]);
+            int saldo = Integer.parseInt(daftarNasabah.get(idxNasabah)[1]);
 
-            if (tipe.equals("DEPOSIT")) {
-                saldo += jumlah;
-                data[1] = String.valueOf(saldo);
+            if (transaksi[1].equals("DEPOSIT")) {
+                daftarNasabah.get(idxNasabah)[1] = String.valueOf(saldo + jumlah);
             } else {
                 if (jumlah > saldo) {
-                    transaksiGagal.push(t); 
+                    transaksiGagal.push(transaksi);
                 } else {
-                    saldo -= jumlah;
-                    data[1] = String.valueOf(saldo);
+                    daftarNasabah.get(idxNasabah)[1] = String.valueOf(saldo - jumlah);
                 }
             }
         }
 
         System.out.println("=== Final Balances ===");
-        for (String[] n : daftarNasabah) {
-            System.out.println(n[0] + " : " + n[1]);
+        for (int i = 0; i < daftarNasabah.size(); i++) {
+            System.out.println(daftarNasabah.get(i)[0] + " : " + daftarNasabah.get(i)[1]);
         }
 
         System.out.println();
         System.out.println("=== Failed Transactions ===");
         while (!transaksiGagal.isEmpty()) {
-            String[] t = transaksiGagal.pop();
-            System.out.println(t[0] + " " + t[1] + " " + t[2]);
+            String[] gagal = transaksiGagal.pop();
+            System.out.println(gagal[0] + " " + gagal[1] + " " + gagal[2]);
         }
     }
 }
