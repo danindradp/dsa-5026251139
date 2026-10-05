@@ -20,7 +20,6 @@ public class Main {
             String kode = baca.next();
 
             if (operasi.equals("CHECK")) {
-                // CHECK ga bikin record baru, cuma liat doang
                 if (enrollment.containsKey(kode)) {
                     hasilCheck.add(kode + ": " + enrollment.get(kode) + " students");
                 } else {
@@ -30,7 +29,6 @@ public class Main {
                 int jumlah = baca.nextInt();
 
                 if (jumlah <= 0) {
-                    // jumlah nol atau negatif, langsung tolak
                     ditolak++;
                 } else if (operasi.equals("REGISTER")) {
                     if (enrollment.containsKey(kode)) {
@@ -40,7 +38,6 @@ public class Main {
                         urutanMatkul.add(kode);
                     }
                 } else if (operasi.equals("WITHDRAW")) {
-                    // harus ada matkulnya dan mahasiswanya cukup
                     if (enrollment.containsKey(kode) && enrollment.get(kode) >= jumlah) {
                         enrollment.put(kode, enrollment.get(kode) - jumlah);
                     } else {
