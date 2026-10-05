@@ -1,16 +1,5 @@
 import java.util.*;
 
-/*
- * Labwork 03 - Prelab (Map, Set, List)
- *
- * Input  : playlist.txt, participants.txt, inventory.txt
- * Output : hasil playlist, daftar peserta unik, stok akhir produk
- *
- * Steps:
- * 1. Soal 1 -> baca perintah playlist, simpen di List
- * 2. Soal 2 -> baca nama peserta, simpen di Set (urutan tetep sesuai input)
- * 3. Soal 3 -> baca operasi stok, simpen di Map (urutan tetep sesuai input)
- */
 public class Main {
 
     public static void main(String[] args) {
@@ -19,7 +8,6 @@ public class Main {
         soal3();
     }
 
-    // ===== Soal 1: Playlist (List) =====
     static void soal1() {
         Scanner baca = new Scanner(Main.class.getResourceAsStream("playlist.txt"));
         List<String> playlist = new ArrayList<>();
@@ -28,7 +16,6 @@ public class Main {
             String baris = baca.nextLine().trim();
             if (baris.isEmpty()) continue;
 
-            // INSERT butuh 3 bagian, sisanya 2 bagian (judul lagu bisa pake spasi)
             if (baris.startsWith("ADD")) {
                 String[] bagian = baris.split(" ", 2);
                 playlist.add(bagian[1]);
@@ -38,7 +25,6 @@ public class Main {
                 playlist.add(indeks, bagian[2]);
             } else if (baris.startsWith("REMOVE")) {
                 String[] bagian = baris.split(" ", 2);
-                // remove(Object) cuma hapus yang pertama, kalo ga ada ya ga ngapa-ngapain
                 playlist.remove(bagian[1]);
             }
         }
@@ -51,10 +37,8 @@ public class Main {
         System.out.println();
     }
 
-    // ===== Soal 2: Peserta workshop (Set) =====
     static void soal2() {
         Scanner baca = new Scanner(Main.class.getResourceAsStream("participants.txt"));
-        // LinkedHashSet biar urutan pertama muncul tetep kejaga
         Set<String> peserta = new LinkedHashSet<>();
         int duplikat = 0;
 
@@ -62,7 +46,6 @@ public class Main {
             String nama = baca.nextLine().trim();
             if (nama.isEmpty()) continue;
 
-            // add() return false kalo namanya udah ada
             if (!peserta.add(nama)) {
                 duplikat++;
             }
@@ -79,10 +62,8 @@ public class Main {
         System.out.println();
     }
 
-    // ===== Soal 3: Inventori toko (Map) =====
     static void soal3() {
         Scanner baca = new Scanner(Main.class.getResourceAsStream("inventory.txt"));
-        // LinkedHashMap biar urutan produk sesuai pertama kali muncul
         Map<String, Integer> stok = new LinkedHashMap<>();
         int gagalJual = 0;
 
