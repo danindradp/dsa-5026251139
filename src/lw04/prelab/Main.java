@@ -1,3 +1,5 @@
+package lw04.prelab;
+
 import java.util.Scanner;
 
 public class Main {
